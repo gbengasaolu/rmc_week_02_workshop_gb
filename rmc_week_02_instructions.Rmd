@@ -20,7 +20,7 @@ The example report is divided into 3 major subsections:
 
 3.  Overall Disease Burden
 
-**We have created a minimal example of report [here](https://github.com/the-graph-courses/misc_public/blob/main/rmc_week_02_workshop/rmd/burden_of_disease_report.md).**
+**We have created a minimal example of report [here](https://github.com/the-graph-courses/misc_public/blob/main/rmc_week_02_workshop/rmd/burden_of_disease_report.md){target="_blank"}.**
 
 You and your group members will work together to do the analysis, and each group member will be responsible for one section of the report. 
 
@@ -50,7 +50,7 @@ Then, everyone will pull the changes from the repo and knit the main report.
 
 Pick one group member to be the repo "owner" (Partner 1). 
 
-They should fork the template repository from here: <https://github.com/the-graph-courses/rmc_week_02_workshop>.
+They should fork the template repository from here: [https://github.com/the-graph-courses/rmc_week_02_workshop](https://github.com/the-graph-courses/rmc_week_02_workshop){target="_blank"}.
 
 **NOTE**: Please choose someone who is able to screenshare. They should share while doing tasks 1 and 2, so that other group members understand how these work.
 
