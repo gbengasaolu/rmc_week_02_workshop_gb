@@ -1,0 +1,62 @@
+---
+title: "Burden of Disease Report"
+subtitle: "Collaborative GitHub and RMarkdown Practice"
+author: "The GRAPH Courses Team"
+output: prettydoc::html_pretty
+---
+
+# Intro
+
+In this workshop, you will work in groups of 2-3 to create a report on the burden of disease for three countries of your choice. The goal is to practice collaborative coding using GitHub and modular RMarkdown reports. 
+
+You can see a minimal example output of the report here: [https://github.com/the-graph-courses/misc_public/blob/main/rmc_week_02_workshop/rmd/burden_of_disease_report.md](https://github.com/the-graph-courses/misc_public/blob/main/rmc_week_02_workshop/rmd/burden_of_disease_report.md){target="_blank"}.
+
+# TASK 1: FORK AND CLONE THE REPO
+
+Pick one group member to be the repo "owner". They will fork the template repository from here: [https://github.com/the-graph-courses/rmc_week_02_workshop](https://github.com/the-graph-courses/rmc_week_02_workshop){target="_blank"}.
+
+Then they will add the other group members as collaborators on the forked repo.
+
+All group members should then clone the repo to their local machines.
+
+# TASK 2: CHOOSE THREE COUNTRIES 
+
+As a group, decide on three countries you want to analyze and compare in your report. Make sure each group member knows which countries were selected.
+
+# TASK 3: COMPLETE THE CHILD DOCUMENTS
+
+The "rmd" folder of the repo contains a main RMarkdown file `burden_of_disease_report.Rmd` which includes three child documents:
+
+1. `cmnn_burden.Rmd`: This document will compare the DALY burden of communicable, maternal, neonatal, and nutritional diseases for the three countries.
+
+2. `ncd_burden.Rmd`: This document will compare the DALY burden of non-communicable diseases for the three countries.
+
+3. `overall_burden.Rmd`: This document will compare the overall DALY burden for the three countries.
+
+Each group member should take responsibility for completing one of these child documents. If there are two group members, you should only complete two child documents. If there are three group members, each person should complete one child document.
+
+Read the instructions in your assigned child document and complete the tasks, analyzing the DALY burden for the three countries.
+
+Each group member should complete these steps, commit their changes, and push to the remote repo.
+
+# TASK 4: RENDER THE MAIN REPORT
+
+Once all group members have completed their child documents, the repo owner should pull everyone's changes. 
+
+Then render the main `burden_of_disease_report.Rmd` which will include the completed child docs. Make sure that only key outputs are displayed in the main report, not the code or package loading messages. The render output should be in github_document format.
+
+Commit and push the final rendered report to GitHub. 
+
+Then go online to your repo and check that the report renders correctly. The images and tables should be visible.
+
+# CHALLENGE (OPTIONAL)
+
+If your groups finishes early, try to calculate and add a plot showing the *cumulative* DALY burden for the three countries over time, for each of the three burden estimate types.
+
+# TASK 5: SUBMIT
+
+To submit, each group member should paste the link to the group's GitHub repo in the submission box on the course platform. This will be the same repo for all group members. But each group member should submit the link individually. From the commit history, we will be able to see who contributed to the repo.
+
+# TASK 6: PRESENT (OPTIONAL)
+
+If you finish on time, you may be approached to present one of your plots and summarize what it shows.
