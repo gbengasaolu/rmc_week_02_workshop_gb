@@ -2,7 +2,7 @@
 
 ```{r}
 # Load necessary packages
-pacman::p_load(tidyverse, knitr, here)
+pacman::p_load(tidyverse, knitr, here, plotly)
 
 # Import the non-communicable diseases data
 data_ncd <- read_csv(here("data/burden-of-disease-ncd.csv"))
@@ -10,15 +10,50 @@ data_ncd <- read_csv(here("data/burden-of-disease-ncd.csv"))
 
 ```{r}
 # Filter the dataset to include only the three countries chosen by your group.
-data_ncd_mini <- "WRITE_YOUR_CODE_HERE"
+data_ncd_mini <- data_ncd %>%
+  filter(Entity %in% c("Botswana", "Brazil", "Brunei"))
+
+# convert column names to lower cases
+
+names(data_ncd_mini) <- tolower(make.names(names(data_ncd_mini)))
+
+#rename daly
+data_ncd_mini <- data_ncd_mini %>%
+  rename(
+    daly = dalys..disability.adjusted.life.years....non.communicable.diseases...sex..both...age..age.standardized..rate.
+  )
+
+# rename entity to country
+data_ncd_mini <- data_ncd_mini %>%
+  rename(
+    country = entity
+  )
+
 ```
+
+
 
 ## Table of Estimates for NCD Burden Over Time
 
 ```{r}
 # Here render a table for the DALY burden over time for the three countries. 
 # You should pivot the data wider to show each country in a separate column.
-data_ncd_wide <- "WRITE_YOUR_CODE_HERE"
+
+# Pivot to wide format, keeping country and code as identifiers
+data_ncd_wide <- data_ncd_mini %>%
+  pivot_wider(
+    id_cols    = c(country, code),
+    names_from = year,
+    values_from= daly
+  )
+
+# Render the wide table using kable()
+knitr::kable(
+  data_ncd_wide,
+  caption = "DALYs by Country and Year",
+  digits = 2,
+  align = c("l", "l", rep("r", ncol(data_ncd_wide) - 2))
+)
 # Use kable() from the knitr package to render the table.
 ```
 
@@ -27,8 +62,27 @@ data_ncd_wide <- "WRITE_YOUR_CODE_HERE"
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
 # NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table. 
+data_ncd_linechart <-data_ncd_mini %>%
+  ggplot(aes(x = year, y = daly, color = country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title    = "DALYs Over Time",
+    x        = "Year",
+    y        = "Disability-Adjusted Life Years (DALY)",
+    color    = "Country"
+  ) +
+  theme_minimal()
+
+ggplotly(data_ncd_linechart)
 ```
 
 ## Summary of NCD Burden Findings
 
 Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+
+Between 1990 and 2019, all three countries saw overall declines in non-communicable disease DALYs, with Brazil showing the most consistent year-on-year reduction from about 26 800 to just over 20 000. 
+
+Brunei’s DALYs fell from roughly 29 500 to 22 700, though there was a mid-2000s plateau before renewed improvement. 
+
+In contrast, Botswana experienced a pronounced rise in DALYs—peaking near 32 000 in the mid-2000s—before reversing course to end at approximately 25 600, mirroring regional gains in disease control but highlighting a later start.

@@ -1,34 +1,91 @@
+---
+title: "CMNN Burden of Disease Report"
+output: html_document
+---
+
 # Communicable, Maternal, Neonatal, and Nutritional Disease Burden (CMNN)
 
 ```{r}
 # Load necessary packages
-pacman::p_load(tidyverse, knitr, here)
-
-# Import the communicable diseases data
-data_cmnn <- read_csv(here("data/burden-of-disease-cmnn.csv"))
+library(dplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(gt)
 ```
 
+
 ```{r}
+# Import the communicable diseases data
+data_cmnn <- readr::read_csv("../data/burden-of-disease-cmnn.csv")
+
 # Filter the dataset to include only the three countries chosen by your group.
-data_cmnn_mini <- "WRITE_YOUR_CODE_HERE"
+data_cmnn_mini <- data_cmnn %>%
+  filter(Entity %in% c("Botswana", "Brazil", "Brunei"))
+
+# convert column names to lower cases
+
+names(data_cmnn_mini) <- tolower(make.names(names(data_cmnn_mini)))
+
+# rename daly
+data_cmnn_mini <- data_cmnn_mini %>%
+  rename(
+    daly = dalys..disability.adjusted.life.years....communicable..maternal..neonatal..and.nutritional.diseases...sex..both...age..age.standardized..rate.
+  )
+
+# rename entity to country
+data_cmnn_mini <- data_cmnn_mini %>%
+  rename(
+    country = entity
+  )
 ```
 
 ## Table of Estimates for CMNN Burden Over Time
 
 ```{r}
-# Here render a table for the DALY burden over time for the three countries.
-# You should pivot the data wider to show each country in a separate column.
-data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
-# Use kable() from the knitr package to render the table.
+#Widen the table to show trends
+
+wide_data_cmnn_mini <- data_cmnn_mini %>%
+  # make sure country and code stay as identifier columns
+  pivot_wider(
+    id_cols    = c(country, code),
+    names_from = year,
+    values_from= daly
+  ) %>%
+  gt() 
+
+wide_data_cmnn_mini
 ```
+
 
 ## Plot Showing Trends in CMNN Burden Over Time
 
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
 # NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table. 
+
+# filter & plot
+data_cmnn_mini %>%
+  ggplot(aes(x = year, y = daly, color = country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title    = "DALYs Over Time",
+    x        = "Year",
+    y        = "Disability-Adjusted Life Years (DALY)",
+    color    = "Country"
+  ) +
+  theme_minimal()
+
 ```
 
 ## Summary of CMNN Burden Findings
 
 Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+
+Botswana’s DALYs rose sharply from about 27,900 in 1990 to a peak of roughly 83,200 in 2002 before entering a sustained decline back to about 25,400 by 2019, suggesting a substantial but temporary burden spike in the early 2000s. 
+
+In contrast, Brazil shows a steady and consistent reduction in DALYs from about 13,200 in 1990 down to roughly 4,840 in 2019, indicating long-term improvements in population health. 
+
+Brunei’s DALYs remain comparatively low (around 3,500 in 1990) and exhibit only modest fluctuations over the three decades, reflecting relative stability in its disease burden.
+
